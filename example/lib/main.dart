@@ -17,12 +17,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Overlay Support Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return OverlaySupport(
+      child: MaterialApp(
+        title: 'Overlay Support Example',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: HomePage(),
       ),
-      home: HomePage(),
     );
   }
 }
@@ -38,7 +40,7 @@ class HomePage extends StatelessWidget {
             RaisedButton(
               onPressed: () {
                 showSimpleNotification(
-                    context, Text("this is a message from simple notification"),
+                    Text("this is a message from simple notification"),
                     background: Colors.green);
               },
               child: Text("Auto Dimiss Notification"),
@@ -46,7 +48,6 @@ class HomePage extends StatelessWidget {
             RaisedButton(
               onPressed: () {
                 showSimpleNotification(
-                  context,
                   Text("you got a simple message"),
                   trailing: Builder(builder: (context) {
                     return FlatButton(
@@ -66,12 +67,12 @@ class HomePage extends StatelessWidget {
           _Section(title: 'Custom notification', children: <Widget>[
             RaisedButton(
               onPressed: () {
-                showOverlayNotification(context, (context) {
+                showOverlayNotification((context) {
                   return MessageNotification(
                     message: messages[3],
                     onReplay: () {
                       OverlaySupportEntry.of(context).dismiss();
-                      toast(context, 'you checked this message');
+                      toast('you checked this message');
                     },
                   );
                 }, duration: Duration(milliseconds: 4000));
@@ -84,12 +85,12 @@ class HomePage extends StatelessWidget {
                 for (var i = 0; i < messages.length; i++) {
                   await Future.delayed(
                       Duration(milliseconds: 200 + random.nextInt(1000)));
-                  showOverlayNotification(context, (context) {
+                  showOverlayNotification((context) {
                     return MessageNotification(
                       message: messages[i],
                       onReplay: () {
                         OverlaySupportEntry.of(context).dismiss();
-                        toast(context, 'you checked this message');
+                        toast('you checked this message');
                       },
                     );
                   },
@@ -103,7 +104,7 @@ class HomePage extends StatelessWidget {
           _Section(title: 'toast', children: [
             RaisedButton(
               onPressed: () {
-                toast(context, 'this is a message from toast');
+                toast('this is a message from toast');
               },
               child: Text('toast'),
             )
@@ -111,7 +112,7 @@ class HomePage extends StatelessWidget {
           _Section(title: 'custom', children: [
             RaisedButton(
               onPressed: () {
-                showOverlay(context, (_, t) {
+                showOverlay((_, t) {
                   return Theme(
                     data: Theme.of(context),
                     child: Opacity(
